@@ -86,6 +86,37 @@ namespace WebAppECartDemo.Controllers
             listOfShoppingCartModels = Session["CartItem"] as List<ShoppingCartModel>;
             return View(listOfShoppingCartModels);
         }
+        [HttpPost]
+        public ActionResult AddOrder()
+        {
+            int OrderId = 0;
+            listOfShoppingCartModels = Session["CartItem"] as List<ShoppingCartModel>;
+            Order orderObj = new Order()
+            {
+                OrderDate = DateTime.Now,
+                OrderNumber = String.Format("ddmmyyyyHHmmsss", DateTime.Now)
+            };
+            objECartDbEntities.Orders.Add(orderObj);
+            objECartDbEntities.SaveChanges();
+            OrderId = orderObj.OrderId;
+
+            foreach(var item in listOfShoppingCartModels)
+            {
+                OrderDetail objOrderDetail = new OrderDetail();
+                objOrderDetail.Total = item.Total;
+                objOrderDetail.ItemId = item.ItemId;
+                objOrderDetail.OrderId = OrderId;
+                objOrderDetail.Quantity = item.Quantity;
+                objOrderDetail.UnitPrice = item.UnitPrice;
+                objECartDbEntities.OrderDetails.Add(objOrderDetail);
+                objECartDbEntities.SaveChanges();
+
+            }
+
+            Session["CartItem"] = null;
+            Session["CartCounter"] = null;
+            return RedirectToAction("Index");
+        }
 
     }
 }

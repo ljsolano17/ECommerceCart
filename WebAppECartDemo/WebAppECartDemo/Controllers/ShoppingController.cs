@@ -52,9 +52,9 @@ namespace WebAppECartDemo.Controllers
             Item objItem = objECartDbEntities.Items.Single(model => model.ItemId.ToString() == ItemId);
             if (Session["CartCounter"] != null)
             {
-                listOfShoppingCartModels = Session["CartCounter"] as List<ShoppingCartModel>;
+                listOfShoppingCartModels = Session["CartItem"] as List<ShoppingCartModel>;
             }
-            if (listOfShoppingCartModels.Any(model => model.ItemId == ItemId))
+            if (listOfShoppingCartModels.Any(model => model.ItemId.ToString() == ItemId))
             {
                 //Segunda vez que se agrega al carrito
                 objShoppingCartModel = listOfShoppingCartModels.Single(model => model.ItemId == ItemId);
@@ -78,6 +78,13 @@ namespace WebAppECartDemo.Controllers
             Session["CartItem"] = listOfShoppingCartModels;
             return Json(new { Success = true, Counter = listOfShoppingCartModels.Count },JsonRequestBehavior.AllowGet);
 
+        }
+
+       
+        public ActionResult ShoppingCart()
+        {
+            listOfShoppingCartModels = Session["CartItem"] as List<ShoppingCartModel>;
+            return View(listOfShoppingCartModels);
         }
 
     }

@@ -6,7 +6,7 @@
 <h2>Shopping</h2>
 <script type="text/javascript">
     function AddToCart(item) {
-        var itemId = $(item).attr("Itemid");
+        var itemId = $(item).attr("itemid");
         //alert(itemId);
         var formData = new FormData();
         formData.append("ItemId", itemId);
@@ -14,15 +14,15 @@
 
         $.ajax({
             async: true,
-            dataType: 'JSON',
             type: 'POST',
             contentType: false,
             processData: false,
-            url: '/Shopping/Index',
             data: formData,
+            url: '/Shopping/Index',
             success: function (data) {
+                console.log(data.Counter);
                 if (data.Success) {
-                    $("cartItem").text("Cart(" + data.Counter + ")");
+                    $("#cartItem").text("Cart(" + data.Counter + ")");
                 }
 
 

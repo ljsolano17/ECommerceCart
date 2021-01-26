@@ -15,7 +15,7 @@
 
     });
     function ResetItem() {
-        $("#CategoryId").val("");
+        $("#CategoryId").val(1);
         $("#ItemCode").val("");
         $("#ItemName").val("");
         $("#Description").val("");
@@ -26,15 +26,15 @@
     function SaveItem() {
        
         var form_data = new FormData();
-      //  var x = $('#ImagePath').get(0).files[0];
-        console.log($('#ImagePath').get(0).files[0]);
+      
         form_data.append('CategoryId', $('#CategoryId').val());
         form_data.append('ItemCode', $('#ItemCode').val());
         form_data.append('ItemName', $('#ItemName').val());
         form_data.append('Description', $('#Description').val());
         form_data.append('ItemPrice', $('#ItemPrice').val());
-        form_data.append('ImagePath',$('#ImagePath').get(0).files[0]);//Solo una imagen por producto, si quisiera mas imagenes hay que cambiar la DB
-    //    form_data.append('ImagePath', x);
+        form_data.append('ImagePath', $('#ImagePath').get(0).files[0]);
+        //Solo una imagen por producto, si quisiera mas imagenes hay que cambiar la DB
+  
       
         $.ajax({
             async: true,
